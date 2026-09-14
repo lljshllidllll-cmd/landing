@@ -1,0 +1,11 @@
+{
+  "name": "1986fitness-jungsan",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "node scripts/serve.mjs",
+    "build": "node scripts/build-check.mjs",
+    "update:blog": "node scripts/update-blog-posts.mjs",
+    "build:refresh": "npm run update:blog && npm run build"
+  }
+}
