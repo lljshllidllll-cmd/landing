@@ -1,10 +1,11 @@
-name: Refresh blog posts and deploy Pages
+name: Refresh Naver content and deploy Pages
 
 on:
   push:
     branches: [main]
   schedule:
-    - cron: '23 * * * *'
+    # GitHub Actions cron uses UTC. 15:23 UTC = 00:23 Asia/Seoul.
+    - cron: '23 15 * * *'
   workflow_dispatch:
 
 permissions:
@@ -26,8 +27,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 24
-      - name: Refresh latest Naver blog posts
-        run: npm run update:blog
+      - name: Refresh latest Naver Place photo and blog posts
+        run: npm run update:content
       - name: Validate site
         run: npm run build
       - name: Configure Pages

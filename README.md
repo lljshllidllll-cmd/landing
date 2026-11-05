@@ -16,15 +16,15 @@ npm.cmd run dev
 npm.cmd run build
 ```
 
-## 블로그 최신 글 자동 갱신
+## 네이버 최신 콘텐츠 자동 갱신
 
-공식 RSS에서 최신 게시물 4개를 다시 받아 로컬 데이터와 검증을 함께 갱신합니다.
+네이버 플레이스의 최신 업체 사진과 공식 블로그 RSS의 최신 게시물 4개를 다시 받아 로컬 데이터와 검증을 함께 갱신합니다.
 
 ```powershell
 npm.cmd run build:refresh
 ```
 
-GitHub에 배포하면 `.github/workflows/pages.yml`이 매시간 23분에 RSS를 갱신하고 GitHub Pages를 다시 배포합니다. 저장소의 `Settings → Pages → Build and deployment → Source`는 `GitHub Actions`로 선택해야 합니다.
+GitHub에 배포하면 `.github/workflows/pages.yml`이 매일 한국시간 00:23에 RSS를 갱신하고 GitHub Pages를 다시 배포합니다. 저장소의 `Settings → Pages → Build and deployment → Source`는 `GitHub Actions`로 선택해야 합니다.
 
 ## 사용한 사진
 
@@ -35,7 +35,8 @@ GitHub에 배포하면 `.github/workflows/pages.yml`이 매시간 23분에 RSS�
 ## 외부 연결
 
 - 네이버 플레이스: 중산점 대표 사진과 새 소식
-- 공식 블로그: 공식 RSS 최신 게시물 4개의 실제 썸네일과 개별 원문 링크, 매시간 자동 갱신
+- 공식 블로그: 공식 RSS 최신 게시물 4개의 실제 썸네일과 개별 원문 링크
+- 플레이스 최신 업체 사진과 블로그 게시물은 매일 자동 갱신
 - 전화 상담: `031-977-3690`
 
 확인되지 않은 가격·후기·트레이너 정보는 표시하지 않습니다.

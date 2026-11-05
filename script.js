@@ -1,5 +1,22 @@
 const blogPostGrid = document.querySelector('[data-blog-feed]');
 const blogFeedStatus = document.querySelector('[data-blog-feed-status]');
+const placePhoto = document.querySelector('[data-place-photo]');
+const placePhotoLabel = document.querySelector('[data-place-photo-label]');
+
+async function refreshPlacePhoto() {
+  if (!placePhoto) return;
+  try {
+    const response = await fetch('public/data/place-photo.json', { cache: 'no-store' });
+    if (!response.ok) throw new Error(`Place photo data unavailable: ${response.status}`);
+    const data = await response.json();
+    if (data.placeId !== '1052772360' || !data.image?.startsWith('https://ldb-phinf.pstatic.net/') || !/^\d{4}-\d{2}-\d{2}$/.test(data.published)) throw new Error('Place photo data contains an unexpected source');
+    placePhoto.src = data.image;
+    if (placePhotoLabel) placePhotoLabel.textContent = `LATEST PLACE PHOTO · ${data.published.slice(5).replace('-', '.')}`;
+    placePhoto.dataset.placeState = 'current';
+  } catch {
+    placePhoto.dataset.placeState = 'fallback';
+  }
+}
 
 function createBlogPost(post) {
   const link = document.createElement('a');
@@ -43,71 +60,8 @@ async function refreshBlogPosts() {
   }
 }
 
+refreshPlacePhoto();
 refreshBlogPosts();
-
-const paths = {
-  beginner: {
-    code: 'PATH 01',
-    title: '첫 운동을 낯설지 않게',
-    copy: '생활 리듬과 운동 경험을 먼저 확인하고, 기구와 공간에 익숙해지는 순서로 시작합니다.',
-    steps: [
-      ['목표와 운동 경험 확인', '무엇을 바꾸고 싶은지 편하게 이야기합니다.'],
-      ['공간과 기구 적응', '처음 사용할 기구와 기본 동선을 확인합니다.'],
-      ['첫 루틴 방향 잡기', '혼자서도 이어갈 수 있는 시작점을 정합니다.']
-    ]
-  },
-  routine: {
-    code: 'PATH 02',
-    title: '막힌 루틴에 이유를 더하기',
-    copy: '현재 하고 있는 운동을 함께 살펴보고, 동작과 순서를 이해할 수 있는 반복 계획으로 정리합니다.',
-    steps: [
-      ['현재 루틴 확인', '자주 하는 운동과 막히는 지점을 먼저 정리합니다.'],
-      ['움직임과 동작 체크', '불편하거나 확신이 없는 동작을 살펴봅니다.'],
-      ['반복 계획 정리', '내가 혼자서도 실행할 수 있는 순서를 만듭니다.']
-    ]
-  },
-  pt: {
-    code: 'PATH 03',
-    title: '목적에 맞는 코칭 찾기',
-    copy: '원하는 변화와 현재 상태를 함께 확인한 뒤, 어떤 수업 방향과 코칭이 필요한지 살펴봅니다.',
-    steps: [
-      ['운동 목적 상담', '체력, 체형, 움직임 등 원하는 방향을 확인합니다.'],
-      ['현재 움직임 체크', '목표와 연결되는 기본 움직임을 살펴봅니다.'],
-      ['코칭 방향 안내', '중산점 코치 자료 확인 후 적합한 상담으로 연결합니다.']
-    ]
-  }
-};
-
-const pathButtons = [...document.querySelectorAll('[data-path]')];
-const finderResult = document.querySelector('.finder-result');
-const resultCode = document.querySelector('.result-code');
-const resultTitle = document.querySelector('.result-title');
-const resultCopy = document.querySelector('.result-copy');
-const resultSteps = document.querySelector('.result-steps');
-
-function renderPath(key) {
-  const path = paths[key];
-  resultCode.textContent = path.code;
-  resultTitle.textContent = path.title;
-  resultCopy.textContent = path.copy;
-  resultSteps.innerHTML = path.steps.map((step, index) => `
-    <li>
-      <span>${String(index + 1).padStart(2, '0')}</span>
-      <strong>${step[0]}</strong>
-      <small>${step[1]}</small>
-    </li>
-  `).join('');
-  finderResult.classList.remove('is-changing');
-  void finderResult.offsetWidth;
-  finderResult.classList.add('is-changing');
-}
-
-pathButtons.forEach((button) => {
-  button.addEventListener('click', () => {
-    pathButtons.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
-    renderPath(button.dataset.path);
-  });
-});
 
 const spaceButtons = [...document.querySelectorAll('[data-space-image]')];
 const spaceFeature = document.querySelector('.space-feature');
@@ -133,6 +87,9 @@ spaceButtons.forEach((button, index) => {
 });
 
 const archiveThumbs = [...document.querySelectorAll('.archive-thumb')];
+const archiveRail = document.querySelector('.photo-archive');
+const archiveRailPrevious = document.querySelector('.archive-rail-prev');
+const archiveRailNext = document.querySelector('.archive-rail-next');
 const archiveLightbox = document.querySelector('#archive-lightbox');
 const lightboxImage = archiveLightbox.querySelector('.lightbox-image');
 const lightboxCounter = archiveLightbox.querySelector('.lightbox-counter');
@@ -142,6 +99,34 @@ const lightboxPrev = archiveLightbox.querySelector('.lightbox-prev');
 const lightboxNext = archiveLightbox.querySelector('.lightbox-next');
 let archiveIndex = 0;
 let archiveTrigger = null;
+let archiveRailFrame;
+
+function updateArchiveRailControls() {
+  if (!archiveRail || !archiveRailPrevious || !archiveRailNext) return;
+  const maxScroll = Math.max(0, archiveRail.scrollWidth - archiveRail.clientWidth);
+  archiveRailPrevious.disabled = archiveRail.scrollLeft <= 4;
+  archiveRailNext.disabled = archiveRail.scrollLeft >= maxScroll - 4;
+}
+
+function moveArchiveRail(direction) {
+  const firstThumb = archiveRail?.querySelector('.archive-thumb');
+  if (!archiveRail || !firstThumb) return;
+  const railStyle = getComputedStyle(archiveRail);
+  const gap = Number.parseFloat(railStyle.columnGap || railStyle.gap) || 0;
+  archiveRail.scrollBy({
+    left: direction * (firstThumb.getBoundingClientRect().width + gap),
+    behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+  });
+}
+
+archiveRailPrevious?.addEventListener('click', () => moveArchiveRail(-1));
+archiveRailNext?.addEventListener('click', () => moveArchiveRail(1));
+archiveRail?.addEventListener('scroll', () => {
+  cancelAnimationFrame(archiveRailFrame);
+  archiveRailFrame = requestAnimationFrame(updateArchiveRailControls);
+}, { passive: true });
+requestAnimationFrame(updateArchiveRailControls);
+window.addEventListener('resize', updateArchiveRailControls);
 
 function renderArchiveImage(index) {
   archiveIndex = (index + archiveThumbs.length) % archiveThumbs.length;
@@ -181,19 +166,192 @@ document.addEventListener('keydown', (event) => {
   if (event.key === 'ArrowRight') renderArchiveImage(archiveIndex + 1);
 });
 
-const menuButton = document.querySelector('.menu-button');
-const mobileMenu = document.querySelector('#mobile-menu');
-menuButton.addEventListener('click', () => {
-  const open = menuButton.getAttribute('aria-expanded') === 'true';
-  menuButton.setAttribute('aria-expanded', String(!open));
-  mobileMenu.hidden = open;
-  menuButton.querySelector('.sr-only').textContent = open ? '메뉴 열기' : '메뉴 닫기';
+const reviewTabs = [...document.querySelectorAll('[data-review-tab]')];
+const reviewPanels = [...document.querySelectorAll('.review-panel')];
+
+function activateReviewTab(tab, moveFocus = false) {
+  reviewTabs.forEach((item) => {
+    const selected = item === tab;
+    item.setAttribute('aria-selected', String(selected));
+    item.tabIndex = selected ? 0 : -1;
+  });
+  let activePanel = null;
+  reviewPanels.forEach((panel) => {
+    const selected = panel.id === tab.getAttribute('aria-controls');
+    panel.hidden = !selected;
+    if (selected) {
+      activePanel = panel;
+      panel.classList.remove('is-switching');
+      void panel.offsetWidth;
+      panel.classList.add('is-switching');
+    }
+  });
+  const activeRail = activePanel?.querySelector('.review-image-rail');
+  if (activeRail) requestAnimationFrame(() => updateReviewRailControls(activeRail));
+  if (moveFocus) tab.focus();
+}
+
+reviewTabs.forEach((tab, index) => {
+  tab.addEventListener('click', () => activateReviewTab(tab));
+  tab.addEventListener('keydown', (event) => {
+    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+    event.preventDefault();
+    let targetIndex = index;
+    if (event.key === 'ArrowLeft') targetIndex = (index - 1 + reviewTabs.length) % reviewTabs.length;
+    if (event.key === 'ArrowRight') targetIndex = (index + 1) % reviewTabs.length;
+    if (event.key === 'Home') targetIndex = 0;
+    if (event.key === 'End') targetIndex = reviewTabs.length - 1;
+    activateReviewTab(reviewTabs[targetIndex], true);
+  });
 });
-mobileMenu.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
-  menuButton.setAttribute('aria-expanded', 'false');
-  menuButton.querySelector('.sr-only').textContent = '메뉴 열기';
-  mobileMenu.hidden = true;
+
+const reviewRails = [...document.querySelectorAll('.review-image-rail')];
+const reviewRailFrames = new WeakMap();
+
+function getReviewRailControls(reviewRail) {
+  const panel = reviewRail.closest('.review-panel');
+  return {
+    previous: panel?.querySelector('.review-rail-prev'),
+    next: panel?.querySelector('.review-rail-next'),
+  };
+}
+
+function updateReviewRailControls(reviewRail) {
+  if (!reviewRail) return;
+  const { previous, next } = getReviewRailControls(reviewRail);
+  if (!previous || !next) return;
+  const maxScroll = Math.max(0, reviewRail.scrollWidth - reviewRail.clientWidth);
+  previous.disabled = reviewRail.scrollLeft <= 4;
+  next.disabled = reviewRail.scrollLeft >= maxScroll - 4;
+}
+
+function moveReviewRail(reviewRail, direction) {
+  const firstCard = reviewRail?.querySelector('.review-thumb');
+  if (!reviewRail || !firstCard) return;
+  const railStyle = getComputedStyle(reviewRail);
+  const gap = Number.parseFloat(railStyle.columnGap || railStyle.gap) || 0;
+  const distance = firstCard.getBoundingClientRect().width + gap;
+  reviewRail.scrollBy({
+    left: direction * distance,
+    behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+  });
+}
+
+reviewRails.forEach((reviewRail) => {
+  const { previous, next } = getReviewRailControls(reviewRail);
+  previous?.addEventListener('click', () => moveReviewRail(reviewRail, -1));
+  next?.addEventListener('click', () => moveReviewRail(reviewRail, 1));
+  reviewRail.addEventListener('scroll', () => {
+    cancelAnimationFrame(reviewRailFrames.get(reviewRail));
+    reviewRailFrames.set(reviewRail, requestAnimationFrame(() => updateReviewRailControls(reviewRail)));
+  }, { passive: true });
+  requestAnimationFrame(() => updateReviewRailControls(reviewRail));
+});
+window.addEventListener('resize', () => reviewRails.forEach(updateReviewRailControls));
+
+const bodyProfileRail = document.querySelector('.body-profile-rail');
+const bodyProfilePrevious = document.querySelector('.body-profile-prev');
+const bodyProfileNext = document.querySelector('.body-profile-next');
+let bodyProfileRailFrame;
+
+function updateBodyProfileControls() {
+  if (!bodyProfileRail || !bodyProfilePrevious || !bodyProfileNext) return;
+  const maxScroll = Math.max(0, bodyProfileRail.scrollWidth - bodyProfileRail.clientWidth);
+  bodyProfilePrevious.disabled = bodyProfileRail.scrollLeft <= 4;
+  bodyProfileNext.disabled = bodyProfileRail.scrollLeft >= maxScroll - 4;
+}
+
+function moveBodyProfileRail(direction) {
+  const firstSlot = bodyProfileRail?.querySelector('.body-profile-slot');
+  if (!bodyProfileRail || !firstSlot) return;
+  const railStyle = getComputedStyle(bodyProfileRail);
+  const gap = Number.parseFloat(railStyle.columnGap || railStyle.gap) || 0;
+  bodyProfileRail.scrollBy({
+    left: direction * (firstSlot.getBoundingClientRect().width + gap),
+    behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+  });
+}
+
+bodyProfilePrevious?.addEventListener('click', () => moveBodyProfileRail(-1));
+bodyProfileNext?.addEventListener('click', () => moveBodyProfileRail(1));
+bodyProfileRail?.addEventListener('scroll', () => {
+  cancelAnimationFrame(bodyProfileRailFrame);
+  bodyProfileRailFrame = requestAnimationFrame(updateBodyProfileControls);
+}, { passive: true });
+requestAnimationFrame(updateBodyProfileControls);
+window.addEventListener('resize', updateBodyProfileControls);
+
+const reviewThumbs = [...document.querySelectorAll('.review-thumb')];
+const reviewLightbox = document.querySelector('#review-lightbox');
+const reviewLightboxImage = reviewLightbox.querySelector('.review-lightbox-image');
+const reviewLightboxCounter = reviewLightbox.querySelector('.review-lightbox-counter');
+const reviewLightboxTitle = reviewLightbox.querySelector('#review-lightbox-title');
+const reviewLightboxClose = reviewLightbox.querySelector('.review-lightbox-close');
+const reviewLightboxPrev = reviewLightbox.querySelector('.review-lightbox-prev');
+const reviewLightboxNext = reviewLightbox.querySelector('.review-lightbox-next');
+let reviewIndex = 0;
+let reviewTrigger = null;
+let activeReviewThumbs = [];
+
+function renderReviewImage(index) {
+  if (!activeReviewThumbs.length) return;
+  reviewIndex = (index + activeReviewThumbs.length) % activeReviewThumbs.length;
+  const thumb = activeReviewThumbs[reviewIndex];
+  const thumbImage = thumb.querySelector('img');
+  reviewLightboxImage.src = thumbImage.getAttribute('src');
+  reviewLightboxImage.alt = thumbImage.alt;
+  reviewLightboxCounter.textContent = `${String(reviewIndex + 1).padStart(2, '0')} / ${String(activeReviewThumbs.length).padStart(2, '0')}`;
+  reviewLightboxTitle.textContent = thumb.dataset.reviewTitle;
+  reviewLightboxImage.classList.remove('is-changing');
+  void reviewLightboxImage.offsetWidth;
+  reviewLightboxImage.classList.add('is-changing');
+}
+
+function openReview(index, trigger) {
+  reviewTrigger = trigger;
+  activeReviewThumbs = [...trigger.closest('.review-panel').querySelectorAll('.review-thumb')];
+  renderReviewImage(index);
+  reviewLightbox.showModal();
+  document.body.classList.add('lightbox-open');
+  reviewLightboxClose.focus();
+}
+
+reviewThumbs.forEach((thumb) => thumb.addEventListener('click', () => {
+  const panelThumbs = [...thumb.closest('.review-panel').querySelectorAll('.review-thumb')];
+  openReview(panelThumbs.indexOf(thumb), thumb);
 }));
+reviewLightboxPrev.addEventListener('click', () => renderReviewImage(reviewIndex - 1));
+reviewLightboxNext.addEventListener('click', () => renderReviewImage(reviewIndex + 1));
+reviewLightboxClose.addEventListener('click', () => reviewLightbox.close());
+reviewLightbox.addEventListener('click', (event) => {
+  if (event.target === reviewLightbox) reviewLightbox.close();
+});
+reviewLightbox.addEventListener('close', () => {
+  document.body.classList.remove('lightbox-open');
+  reviewTrigger?.focus();
+});
+document.addEventListener('keydown', (event) => {
+  if (!reviewLightbox.open) return;
+  if (event.key === 'ArrowLeft') renderReviewImage(reviewIndex - 1);
+  if (event.key === 'ArrowRight') renderReviewImage(reviewIndex + 1);
+});
+
+const faqMapThumb = document.querySelector('.faq-map-thumb');
+const faqMapDialog = document.querySelector('#faq-map-dialog');
+const faqMapClose = faqMapDialog.querySelector('.faq-map-close');
+faqMapThumb.addEventListener('click', () => {
+  faqMapDialog.showModal();
+  document.body.classList.add('lightbox-open');
+  faqMapClose.focus();
+});
+faqMapClose.addEventListener('click', () => faqMapDialog.close());
+faqMapDialog.addEventListener('click', (event) => {
+  if (event.target === faqMapDialog) faqMapDialog.close();
+});
+faqMapDialog.addEventListener('close', () => {
+  document.body.classList.remove('lightbox-open');
+  faqMapThumb.focus();
+});
 
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {

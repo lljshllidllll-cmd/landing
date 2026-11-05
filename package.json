@@ -6,6 +6,8 @@
     "dev": "node scripts/serve.mjs",
     "build": "node scripts/build-check.mjs",
     "update:blog": "node scripts/update-blog-posts.mjs",
-    "build:refresh": "npm run update:blog && npm run build"
+    "update:place": "node scripts/update-place-photo.mjs",
+    "update:content": "npm run update:place && npm run update:blog",
+    "build:refresh": "npm run update:content && npm run build"
   }
 }
