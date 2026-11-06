@@ -102,7 +102,7 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--orange); outlin
 .news-card-index, .news-card-content, .news-card-arrow { position: relative; z-index: 1; }
 .news-card-index { color: var(--gold); font: 700 9px/1 monospace; letter-spacing: .14em; }
 .news-card-place .news-card-index { color: var(--ink); }
-.news-place-preview { position: relative; width: min(88%,400px); aspect-ratio: 1; margin: 32px auto 20px; align-self: center; overflow: hidden; border: 1px solid rgba(9,9,9,.72); background: var(--ink); }
+.news-place-preview { position: relative; width: 100%; aspect-ratio: 1; margin: 20px auto 16px; align-self: center; overflow: hidden; border: 1px solid rgba(9,9,9,.72); background: var(--ink); }
 .news-place-preview::after { content: ""; position: absolute; inset: 0; border: 5px solid rgba(255,255,255,.18); pointer-events: none; }
 .news-place-preview img { width: 100%; height: 100%; display: block; object-fit: cover; object-position: center; filter: contrast(1.02); transition: transform .52s var(--ease), filter .36s var(--ease); }
 .news-place-preview span { position: absolute; left: 0; bottom: 0; padding: 8px 10px; background: var(--ink); color: var(--white); font: 700 7px/1 monospace; letter-spacing: .12em; }
@@ -170,7 +170,7 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--orange); outlin
 .equipment-specs article:last-child { border-right: 0; }
 .equipment-specs article:hover { background: #141414; transform: translateY(-4px); }
 .equipment-specs span { color: var(--lime); font: 700 8px/1 monospace; letter-spacing: .12em; }
-.equipment-specs h3 { margin: 30px 0 0; font-size: clamp(19px,2vw,28px); line-height: 1.45; letter-spacing: -.035em; }
+.equipment-specs h3 { margin: 30px 0 0; font-size: clamp(19px,2vw,28px); line-height: 1.45; letter-spacing: -.035em; word-break: keep-all; }
 .equipment-brand-card { display: grid; grid-template-columns: minmax(160px,.9fr) minmax(180px,1.1fr); gap: 22px; align-items: center; }
 .equipment-brand-card h3 { margin-top: 24px; }
 .equipment-brand-logos { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; }
@@ -265,9 +265,10 @@ body.lightbox-open { overflow: hidden; }
 .review-lightbox .lightbox-image { object-fit: contain; background: #f4f4f4; }
 @keyframes review-panel-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
 .body-profile-showcase { margin-top: 52px; overflow: hidden; border: 1px solid rgba(255,255,255,.35); border-top: 4px solid var(--orange); background: var(--ink); }
-.body-profile-head { padding: 34px; display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(32px,7vw,96px); align-items: end; }
+.body-profile-head { padding: 34px; display: grid; grid-template-columns: 1fr; gap: 18px; align-items: end; }
 .body-profile-head span { color: var(--orange); font: 700 9px/1 monospace; letter-spacing: .15em; }
-.body-profile-head h3 { margin: 14px 0 0; font-size: clamp(34px,4.2vw,62px); line-height: .98; letter-spacing: -.06em; }
+.body-profile-head h3 { margin: 14px 0 0; font-size: clamp(34px,4.2vw,62px); line-height: .98; letter-spacing: -.06em; white-space: nowrap; }
+.body-profile-head h3 br { display: none; }
 .body-profile-head p { max-width: 480px; margin: 0; color: #d4d5ce; font-size: 14px; font-weight: 500; line-height: 1.9; }
 .body-profile-rail-head { min-height: 68px; padding: 12px 18px; display: flex; align-items: center; justify-content: space-between; gap: 24px; border-top: 1px solid rgba(242,240,232,.2); border-bottom: 1px solid rgba(242,240,232,.2); background: #1c1c1c; }
 .body-profile-rail-head > p { margin: 0; display: grid; gap: 5px; }
@@ -396,6 +397,13 @@ footer { min-height: 132px; padding: 0 clamp(24px,5.5vw,90px); display: grid; gr
   .equipment-showcase h2 { font-size: clamp(29px,3.6vw,37px); }
   .news-copy h2 { font-size: clamp(35px,5vw,49px); }
   .news-card-place p { white-space: normal; word-break: keep-all; }
+  .body-profile-head { grid-template-columns: 1fr; }
+}
+
+@media (min-width: 981px) {
+  .equipment-brand-card h3 { font-size: clamp(18px,1.5vw,21px); }
+  .equipment-specs article:nth-child(2) h3 { font-size: clamp(17px,1.4vw,20px); }
+  .equipment-specs article:nth-child(3) h3 { font-size: clamp(16px,1.3vw,19px); }
 }
 
 @media (min-width: 601px) and (max-width: 1100px) {
@@ -427,6 +435,7 @@ footer { min-height: 132px; padding: 0 clamp(24px,5.5vw,90px); display: grid; gr
   .faq-location-item summary { gap: 8px; }
   .faq-location-item summary .faq-question { max-width: none; white-space: nowrap; font-size: 14px; letter-spacing: -.05em; }
   .faq-location-item summary > span[aria-hidden] { flex-basis: 28px; height: 28px; }
+  .body-profile-head h3 { font-size: clamp(22px,6vw,30px); }
   .visit h2 { font-size: clamp(30px,9.5vw,42px); }
   .visit-info > div { min-height: 0; grid-template-columns: 1fr; gap: 8px; padding: 14px 0; }
   .visit-info dd { word-break: keep-all; }
