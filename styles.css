@@ -289,7 +289,7 @@ body.lightbox-open { overflow: hidden; }
 
 .visit { padding: 84px clamp(24px,5.5vw,90px); display: grid; grid-template-columns: minmax(0,1.15fr) minmax(0,.85fr); align-items: stretch; gap: clamp(24px,4vw,62px); background: var(--lime); }
 .visit-content { min-width: 0; display: flex; flex-direction: column; }
-.visit-copy > p:last-child { max-width: 540px; margin: 26px 0 0; color: #252711; font-weight: 500; }
+.visit-copy > p:last-child { max-width: 540px; margin: 26px 0 0; color: #252711; font-weight: 500; word-break: keep-all; }
 .visit-info { margin: 40px 0 0; border-top: 1px solid var(--ink); }.visit-info > div { min-height: 104px; padding: 16px 0; display: grid; grid-template-columns: 110px 1fr; border-bottom: 1px solid var(--ink); }.visit-info dt { font: 700 11px/1.2 monospace; letter-spacing: .12em; }.visit-info dd { margin: 0; font-size: clamp(18px,2vw,28px); line-height: 1.5; }.visit-info small { font-size: 11px; }
 .visit-actions { margin-top: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }.visit-actions a { min-height: 54px; padding: 0 18px; display: flex; align-items: center; justify-content: space-between; border: 1px solid var(--ink); font-size: 11px; font-weight: 700; transition: background .18s, color .18s; }.visit-actions a:first-child, .visit-actions a:hover { background: var(--ink); color: var(--white); }
 .visit-photo { min-width: 0; min-height: 640px; margin: 0; overflow: hidden; border: 1px solid var(--ink); background: var(--ink); }
@@ -395,13 +395,19 @@ footer { min-height: 132px; padding: 0 clamp(24px,5.5vw,90px); display: grid; gr
 @media (min-width: 601px) and (max-width: 980px) {
   .equipment-showcase h2 { font-size: clamp(29px,3.6vw,37px); }
   .news-copy h2 { font-size: clamp(35px,5vw,49px); }
+  .news-card-place p { white-space: normal; word-break: keep-all; }
 }
 
-@media (min-width: 801px) and (max-width: 980px) {
+@media (min-width: 601px) and (max-width: 1100px) {
+  .space-head { display: block; }
+  .space-head > p { max-width: 620px; margin-top: 20px; word-break: keep-all; }
+}
+
+@media (min-width: 881px) and (max-width: 980px) {
   .visit { grid-template-columns: minmax(0,1.15fr) minmax(0,.85fr); }
 }
 
-@media (max-width: 800px) {
+@media (max-width: 880px) {
   .visit { grid-template-columns: 1fr; }
   .visit-photo { min-height: 0; height: min(90vw,620px); }
 }
