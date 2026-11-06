@@ -57,6 +57,8 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--orange); outlin
 .hero-actions { margin-top: 32px; display: flex; align-items: center; gap: 20px; }
 .primary-button { min-width: 210px; height: 56px; padding: 0 16px 0 20px; display: flex; align-items: center; justify-content: space-between; background: var(--lime); color: var(--ink); font-size: 12px; font-weight: 700; transition: background .18s, transform .18s; }
 .primary-button:hover, .primary-button:focus-visible { background: var(--orange); transform: translateX(4px); }
+.floating-reservation { position: fixed; z-index: 45; right: 24px; bottom: 24px; min-width: 240px; box-shadow: 0 10px 30px rgba(0,0,0,.25); }
+.floating-reservation[hidden] { display: none; }
 .secondary-link { position: relative; padding-bottom: 6px; border-bottom: 1px solid #74766d; font: 700 12px/1 monospace; }
 .secondary-link span { color: var(--lime); margin-left: 8px; }
 .hero-logo-strip { width: max-content; max-width: 100%; margin-top: 14px; display: flex; align-items: center; justify-content: flex-start; gap: 10px; }
@@ -363,6 +365,7 @@ footer { min-height: 132px; padding: 0 clamp(24px,5.5vw,90px); display: grid; gr
   .faq-layout { padding-top: 38px; gap: 34px; }.faq-heading > p:last-child { margin-top: 20px; font-size: 12px; }.faq-list summary { min-height: 68px; padding: 14px 0; font-size: 14px; line-height: 1.45; }.faq-list summary > span[aria-hidden] { flex-basis: 32px; height: 32px; }.faq-list details p { margin-right: 34px; padding: 0 0 18px; font-size: 12px; }
   footer { min-height: 176px; padding: 28px 18px; grid-template-columns: 1fr auto; gap: 20px; }.footer-brand + p { display: none; }.footer-brand + p + p { align-self: end; text-align: right; }
   .mobile-dock { position: fixed; z-index: 50; left: 0; right: 0; bottom: 0; height: 66px; display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--ink); }.mobile-dock a { display: grid; place-items: center; background: #353535; color: var(--white); font-size: 12px; font-weight: 700; }.mobile-dock a:last-child { background: var(--lime); color: var(--white); border-left: 1px solid var(--ink); }
+  .floating-reservation { display: none; }
 }
 
 @media (max-width: 340px) { .hero h1 { font-size: 45px; }.news h2, .why h2, .space h2, .experience h2, .visit h2, .faq h2 { font-size: 38px; } }

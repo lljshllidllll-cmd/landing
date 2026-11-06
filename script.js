@@ -370,3 +370,16 @@ document.querySelectorAll('[data-reveal]').forEach((item, index) => {
 if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
   document.querySelectorAll('[data-reveal]').forEach((item) => item.classList.add('is-visible'));
 }
+
+const heroReservation = document.querySelector('.hero-actions .primary-button');
+if (heroReservation) {
+  const floatingReservation = heroReservation.cloneNode(true);
+  floatingReservation.classList.add('floating-reservation');
+  floatingReservation.hidden = true;
+  document.body.append(floatingReservation);
+
+  const reservationObserver = new IntersectionObserver(([entry]) => {
+    floatingReservation.hidden = entry.isIntersecting;
+  });
+  reservationObserver.observe(heroReservation);
+}
