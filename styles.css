@@ -407,6 +407,19 @@ footer { min-height: 132px; padding: 0 clamp(24px,5.5vw,90px); display: grid; gr
 }
 
 @media (max-width: 600px) {
+  .hero-copy { max-width: 100%; }
+  .hero-description { word-break: keep-all; }
+  .hero-edge { height: 24%; }
+  .news-card-place { min-height: 0; padding-bottom: 26px; }
+  .equipment-specs { grid-template-columns: 1fr; }
+  .equipment-specs article { min-height: 0; border-right: 0 !important; border-bottom: 1px solid rgba(242,240,232,.22); }
+  .equipment-specs article:last-child { border-bottom: 0; }
+  .equipment-specs h3 { margin-top: 14px; word-break: keep-all; }
+  .equipment-brand-logos img:last-child { grid-column: 1 / -1; height: 70px; transform: none; }
+  .equipment-brand-logos img:last-child:hover { transform: translateY(-2px); }
+  .visit h2 { font-size: clamp(30px,9.5vw,42px); }
+  .visit-info > div { min-height: 0; grid-template-columns: 1fr; gap: 8px; padding: 14px 0; }
+  .visit-info dd { word-break: keep-all; }
   .visit-info { margin-top: 28px; }
   .visit-photo { height: min(120vw,560px); }
 }
