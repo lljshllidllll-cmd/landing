@@ -7,6 +7,10 @@
     <title>1986피트니스 중산점 | 중산동 헬스·PT</title>
     <link rel="canonical" href="https://1986fitness-jungsan.pages.dev/" />
     <script>
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+      addEventListener('pageshow', () => {
+        if (!location.hash || location.hash === '#top') scrollTo(0, 0);
+      });
       if (location.hostname === 'lljshllidllll-cmd.github.io' && location.pathname.startsWith('/landing')) {
         location.replace(`https://1986fitness-jungsan.pages.dev/${location.search}${location.hash}`);
       }
