@@ -69,8 +69,8 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--orange); outlin
 .hero-logo-card-hygher img { transform: scale(2.1); filter: grayscale(1) invert(1) contrast(1.6); mix-blend-mode: screen; }
 .hero-logo-card-keeppay { border-radius: 10px; }
 .hero-logo-card-keeppay img { width: 86.8%; object-fit: cover; border-radius: 12px; }
-.hero-payment-button { width: 100%; margin-top: 16px; border: 1px solid rgba(242,240,232,.7); background: rgba(9,9,9,.55); color: var(--bone); font-family: inherit; }
-.hero-payment-button:hover, .hero-payment-button:focus-visible { background: var(--lime); border-color: var(--lime); color: var(--ink); }
+.hero-payment-button { width: 100%; margin-top: 16px; border: 1px solid var(--lime); background: var(--lime); color: var(--ink); font-family: inherit; }
+.hero-payment-button:hover, .hero-payment-button:focus-visible { background: #d94f1f; border-color: #d94f1f; color: var(--ink); }
 .hero-year { position: absolute; z-index: 2; right: 3.5%; bottom: -2.5%; font: 700 clamp(140px,19vw,320px)/.75 "Gmarket Sans", sans-serif; letter-spacing: -.1em; color: transparent; -webkit-text-stroke: 1px rgba(242,240,232,.12); }
 .hero-edge { position: absolute; z-index: 5; top: 86px; right: 0; width: clamp(92px,10vw,156px); height: calc(100% - 86px); display: flex; flex-direction: column; justify-content: space-between; align-items: center; padding: 32px 0 42px; background: rgba(241,90,36,.94); color: var(--ink); }
 .hero-edge span { writing-mode: vertical-rl; font: 700 11px/1 monospace; letter-spacing: .28em; }
