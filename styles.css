@@ -320,11 +320,13 @@ body.lightbox-open { overflow: hidden; }
 .faq-payment-link:hover span, .faq-payment-link:focus-visible span { color: var(--ink); }
 .faq-payment-options { margin: 0; padding: 0; border: 0; display: grid; gap: 8px; }
 .faq-payment-option-row { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 8px; }
-.faq-payment-options a { display: block; }
+.faq-payment-options label { position: relative; display: block; cursor: pointer; }
+.faq-payment-options input { position: absolute; width: 1px; height: 1px; opacity: 0; }
 .faq-payment-options .faq-payment-card { width: 100%; height: 84px; padding: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; border: 1px solid var(--ink); background: transparent; text-align: center; }
 .faq-payment-card > span { font-size: 17px; font-weight: 700; line-height: 1.25; word-break: keep-all; }
 .faq-payment-card strong { font-size: 12px; font-weight: 700; line-height: 1.2; }
-.faq-payment-card.is-featured, .faq-payment-options a:hover .faq-payment-card, .faq-payment-options a:focus-visible .faq-payment-card { background: var(--lime); border-color: var(--lime); }
+.faq-payment-options label:hover .faq-payment-card, .faq-payment-options input:checked + .faq-payment-card { background: var(--lime); border-color: var(--lime); }
+.faq-payment-options input:focus-visible + .faq-payment-card { outline: 3px solid var(--orange); outline-offset: 2px; }
 .payment-page { min-height: 100dvh; padding: clamp(20px,5vw,56px); display: grid; place-items: center; }
 .payment-shell { width: min(100%,960px); padding: clamp(24px,5vw,48px); border-top: 4px solid var(--orange); background: var(--white); }
 .payment-header { display: flex; justify-content: space-between; align-items: center; gap: 20px; font-size: 11px; font-weight: 700; }
@@ -332,8 +334,11 @@ body.lightbox-open { overflow: hidden; }
 .payment-kicker { margin: 44px 0 8px; color: var(--lime); font-size: 11px; font-weight: 700; letter-spacing: .12em; }
 .payment-shell h1 { margin: 0; font-size: clamp(30px,4vw,42px); line-height: 1.2; }
 .payment-intro { margin: 10px 0 28px; font-size: 14px; }
-.payment-note { margin: 16px 0 28px; font-size: 13px; }
-.payment-home { font-size: 13px; font-weight: 700; }
+.payment-note { margin: 16px 0; font-size: 13px; }
+.payment-checkout { width: min(100%,240px); min-height: 56px; padding: 0 18px; display: flex; align-items: center; justify-content: space-between; background: var(--lime); color: var(--ink); font-size: 15px; font-weight: 700; }
+.payment-checkout:not([aria-disabled="true"]):hover, .payment-checkout:not([aria-disabled="true"]):focus-visible { background: var(--orange); }
+.payment-checkout[aria-disabled="true"] { background: #d9d6d0; color: #555; cursor: not-allowed; }
+.payment-home { display: inline-block; margin-top: 22px; font-size: 13px; font-weight: 700; }
 .faq-location-item { position: relative; }
 .faq-location-item[open] { min-height: 150px; }
 .faq-location-item summary .faq-question { max-width: calc(100% - 190px); }

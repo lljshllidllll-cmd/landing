@@ -17,22 +17,36 @@
       <p class="payment-kicker">MEMBERSHIP &amp; PT</p>
       <h1>비대면 결제상품 보기</h1>
       <p class="payment-intro">이용 기간과 PT 상품을 확인해보세요.</p>
-      <section class="faq-payment-options" aria-label="비대면 결제상품">
+      <fieldset class="faq-payment-options">
+        <legend class="sr-only">결제할 상품 선택</legend>
         <div class="faq-payment-option-row">
-          <a href="https://bmarket.broj.co.kr/products/1013095" target="_blank" rel="noopener noreferrer"><span class="faq-payment-card is-featured"><span>1개월 + 3일</span><strong>88,000원</strong></span></a>
-          <a href="https://bmarket.broj.co.kr/products/1013101" target="_blank" rel="noopener noreferrer"><span class="faq-payment-card"><span>3개월 + 5일</span><strong>198,600원</strong></span></a>
-          <a href="https://bmarket.broj.co.kr/products/1013098" target="_blank" rel="noopener noreferrer"><span class="faq-payment-card"><span>6개월 + 5일</span><strong>220,000원</strong></span></a>
-          <a href="https://bmarket.broj.co.kr/products/1013104" target="_blank" rel="noopener noreferrer"><span class="faq-payment-card"><span>12개월 + 7일</span><strong>299,000원</strong></span></a>
+          <label><input type="radio" name="payment-product" data-payment-url="https://bmarket.broj.co.kr/products/1013095" /><span class="faq-payment-card"><span>1개월 + 3일</span><strong>88,000원</strong></span></label>
+          <label><input type="radio" name="payment-product" data-payment-url="https://bmarket.broj.co.kr/products/1013101" /><span class="faq-payment-card"><span>3개월 + 5일</span><strong>198,600원</strong></span></label>
+          <label><input type="radio" name="payment-product" data-payment-url="https://bmarket.broj.co.kr/products/1013098" /><span class="faq-payment-card"><span>6개월 + 5일</span><strong>220,000원</strong></span></label>
+          <label><input type="radio" name="payment-product" data-payment-url="https://bmarket.broj.co.kr/products/1013104" /><span class="faq-payment-card"><span>12개월 + 7일</span><strong>299,000원</strong></span></label>
         </div>
         <div class="faq-payment-option-row faq-payment-bundles">
-          <div class="faq-payment-card"><span>PT 10회</span><strong>660,000원</strong></div>
-          <div class="faq-payment-card"><span>PT 30회</span><strong>1,650,000원</strong></div>
-          <div class="faq-payment-card"><span>PT 50회</span><strong>2,200,000원</strong></div>
-          <div class="faq-payment-card"><span>이달의 프로모션 상품</span></div>
+          <label><input type="radio" name="payment-product" data-payment-url="https://bmarket.broj.co.kr/products/1013131" /><span class="faq-payment-card"><span>PT 10회</span><strong>660,000원</strong></span></label>
+          <label><input type="radio" name="payment-product" data-payment-url="https://bmarket.broj.co.kr/products/1013125" /><span class="faq-payment-card"><span>PT 30회</span><strong>1,650,000원</strong></span></label>
+          <label><input type="radio" name="payment-product" data-payment-url="https://bmarket.broj.co.kr/products/1013122" /><span class="faq-payment-card"><span>PT 50회</span><strong>2,200,000원</strong></span></label>
+          <label><input type="radio" name="payment-product" data-payment-url="https://bmarket.broj.co.kr/products/1158511" /><span class="faq-payment-card"><span>이달의 프로모션 상품</span></span></label>
         </div>
-      </section>
-      <p class="payment-note">PT와 이달의 프로모션 상품 결제 링크는 준비 중입니다.</p>
+      </fieldset>
+      <p class="payment-note" id="payment-selection" aria-live="polite">상품을 선택한 후 결제하기를 눌러주세요.</p>
+      <a class="payment-checkout" id="payment-checkout" aria-disabled="true" tabindex="-1" target="_blank" rel="noopener noreferrer">결제하기 <span aria-hidden="true">↗</span></a>
       <a class="payment-home" href="./">홈으로 돌아가기 <span aria-hidden="true">↗</span></a>
     </main>
+    <script>
+      const checkout = document.getElementById('payment-checkout');
+      const selection = document.getElementById('payment-selection');
+      document.querySelector('.faq-payment-options').addEventListener('change', (event) => {
+        const option = event.target;
+        if (!option.matches('input[name="payment-product"]')) return;
+        checkout.href = option.dataset.paymentUrl;
+        checkout.removeAttribute('aria-disabled');
+        checkout.removeAttribute('tabindex');
+        selection.textContent = `선택한 상품: ${option.closest('label').innerText.replace(/\s+/g, ' ').trim()}`;
+      });
+    </script>
   </body>
 </html>
