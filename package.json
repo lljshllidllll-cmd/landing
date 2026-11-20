@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "node scripts/serve.mjs",
-    "build": "node scripts/build-check.mjs",
+    "build": "node scripts/build-check.mjs && node scripts/copy-payment-page.mjs",
     "update:blog": "node scripts/update-blog-posts.mjs",
     "update:place": "node scripts/update-place-photo.mjs",
     "update:content": "npm run update:place && npm run update:blog",
