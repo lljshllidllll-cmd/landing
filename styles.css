@@ -338,6 +338,10 @@ body.lightbox-open { overflow: hidden; }
 .payment-checkout { width: min(100%,240px); min-height: 56px; padding: 0 18px; display: flex; align-items: center; justify-content: space-between; background: var(--lime); color: var(--ink); font-size: 15px; font-weight: 700; }
 .payment-checkout:not([aria-disabled="true"]):hover, .payment-checkout:not([aria-disabled="true"]):focus-visible { background: var(--orange); }
 .payment-checkout[aria-disabled="true"] { background: #d9d6d0; color: #555; cursor: not-allowed; }
+.payment-information { margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--line); }
+.payment-information h2 { margin: 0 0 12px; font-size: 16px; line-height: 1.4; }
+.payment-information h2:not(:first-child) { margin-top: 24px; }
+.payment-information p { margin: 0 0 10px; font-size: 13px; line-height: 1.65; word-break: keep-all; }
 .payment-home { display: inline-block; margin-top: 22px; font-size: 13px; font-weight: 700; }
 .faq-location-item { position: relative; }
 .faq-location-item[open] { min-height: 150px; }
