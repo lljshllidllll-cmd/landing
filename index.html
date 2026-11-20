@@ -478,10 +478,17 @@
               <summary>비대면 결제상품 보기<span aria-hidden="true">+</span></summary>
               <fieldset class="faq-payment-options">
                 <legend class="sr-only">비대면 결제상품 이용 기간</legend>
-                <label><input type="radio" name="payment-period" value="1-month" checked /><span>1개월 + 3일</span></label>
-                <label><input type="radio" name="payment-period" value="3-months" /><span>3개월 + 5일</span></label>
-                <label><input type="radio" name="payment-period" value="6-months" /><span>6개월 + 5일</span></label>
-                <label><input type="radio" name="payment-period" value="12-months" /><span>12개월 + 7일</span></label>
+                <div class="faq-payment-option-row">
+                  <label><input type="radio" name="payment-period" value="1-month" checked /><span>1개월 + 3일</span></label>
+                  <label><input type="radio" name="payment-period" value="3-months" /><span>3개월 + 5일</span></label>
+                  <label><input type="radio" name="payment-period" value="6-months" /><span>6개월 + 5일</span></label>
+                  <label><input type="radio" name="payment-period" value="12-months" /><span>12개월 + 7일</span></label>
+                </div>
+                <div class="faq-payment-option-row faq-payment-bundles">
+                  <label><input type="radio" name="payment-period" value="3-months-pt-10" /><span>회원권 3개월 + PT 10회</span></label>
+                  <label><input type="radio" name="payment-period" value="12-months-pt-10" /><span>회원권 12개월 + PT10회</span></label>
+                  <label><input type="radio" name="payment-period" value="monthly-promotion" /><span>이달의 프로모션 상품</span></label>
+                </div>
               </fieldset>
               <p class="faq-payment-note">결제 링크는 준비 중입니다.</p>
             </details>
