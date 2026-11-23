@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://1986fitness-jungsan.pages.dev/sitemap.xml
