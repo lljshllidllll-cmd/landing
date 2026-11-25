@@ -1,7 +1,13 @@
 {
   "source": "https://rss.blog.naver.com/1986fitness3.xml",
-  "generatedAt": "2026-11-24T23:56:56.688Z",
+  "generatedAt": "2026-11-25T23:40:42.750Z",
   "posts": [
+    {
+      "title": "중산동 헬스장 I 과식 다음날 굶는 것보다 중요한 5가지",
+      "url": "https://blog.naver.com/1986fitness3/224490996556",
+      "image": "https://blogthumb.pstatic.net/MjAyNjExMjVfNTUg/MDAxNzk1NTY0Njk1ODMz.yF8Q5beCf3utQVetEj5N4QC0w-loBT4opQOm9a03i7Ag.mzlXzGLRXLAE7vTBnnasTcmdGf9xoMlillQUdR7wKiMg.PNG/%C1%A6%B8%F1_%BE%F8%B4%C2_%B5%F0%C0%DA%C0%CE_%2813%29.png?type=s3",
+      "published": "2026-11-25"
+    },
     {
       "title": "중산동 헬스장  I 운동 쉬는 시간, 초보와 고수는 쉬는 방법부터 다르다",
       "url": "https://blog.naver.com/1986fitness3/224489495127",
@@ -19,12 +25,6 @@
       "url": "https://blog.naver.com/1986fitness3/224486785895",
       "image": "https://blogthumb.pstatic.net/MjAyNjExMTRfMjM0/MDAxNzk0NjE3NDAwNzI1.3k4uunY-NVM3RETI8YnpY5D4srFcj0j9N3vlb7dbzcAg.7bQIzBnl3KzamXAMUhrhfi57tIcpqItuBguY1kjun74g.PNG/%C1%A6%B8%F1_%BE%F8%B4%C2_%B5%F0%C0%DA%C0%CE_%283%29.png?type=s3",
       "published": "2026-11-22"
-    },
-    {
-      "title": "중산동 헬스장ㅣ헬스장 초보가 가장 많이 하는 운동은 ‘눈치 보기’다",
-      "url": "https://blog.naver.com/1986fitness3/224486054263",
-      "image": "https://blogthumb.pstatic.net/MjAyNjExMjFfMTM0/MDAxNzk1MjQzOTgxNzcx.88PDhfXmwTCauatM2Qi9MnLVww9MLBS2KXJwkejQAmsg.9lXCZZXRMy11Y3YzzcKyVasekDk61Zai04RgnP6pHsMg.JPEG/%C1%A6%B8%F1_%BE%F8%B4%C2_%B5%F0%C0%DA%C0%CE_%284%29.jpg?type=s3",
-      "published": "2026-11-21"
     }
   ]
 }
